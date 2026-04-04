@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 export function Cycles() {
   return (
     <div className={styles.cycles}>
-      <span>Ciclos: 0</span>
+      <span>Ciclos: 2</span>
 
       <div className={styles.cycleDots}>
         <span className={`${styles.cycleDot} ${styles.workTime}`}></span>

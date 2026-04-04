@@ -1,20 +1,24 @@
 import "./styles/global.css";
 import "./styles/theme.css";
 
-import { Container } from "./components/Container/index";
+import { Container } from "./components/Container";
 //import { Heading } from "./components/Heading/index";
 import { Logo } from "./components/Logo";
 import { Menu } from "./components/Menu";
 import { CountDown } from "./components/CountDown";
-import { DefaultInput } from "./components/DefaultInput/index";
+import { DefaultInput } from "./components/DefaultInput";
 import { Cycles } from "./components/Cycles";
 import { DefaultButton } from "./components/DefaultButton";
-import { PlayCircleIcon, StopCircleIcon } from "lucide-react";
+import { PlayCircleIcon } from "lucide-react";
 import { Footer } from "./components/Footer";
+import { Heading } from "./components/Heading";
 
 export function App() {
+  const numero = 10;
   return (
     <>
+      <Heading>Número: {numero}</Heading>
+
       <Container>
         <Logo />
         {/* <section>LOGO</section> */}
@@ -32,7 +36,7 @@ export function App() {
         <form className="form" action="">
           <div className="formRow">
             <DefaultInput
-              labelText="Com LabelText "
+              labelText={numero.toString()}
               id="meuInput"
               type="text"
               placeholder="Digite aqui"
