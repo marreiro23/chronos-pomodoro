@@ -1,25 +1,27 @@
-import './styles/global.css'
-import './styles/theme.css'
-import { Heading } from './components/Heading'
+import "./styles/global.css";
+import "./styles/theme.css";
 
-
+import { Container } from "./components/Container/index";
+import { Heading } from "./components/Heading/index";
+import { Logo } from "./components/Logo";
+import { Menu } from "./components/Menu";
+import { CountDown } from "./components/CountDown";
 
 export function App() {
-  console.log('Oi, do App.tsx')
-
-
   return (
     <>
-      <Heading attr={123} attr2='String'>
-        Ola Mundo 1
-      </Heading>
-      <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. 
-        Obcaecati ducimus facilis itaque harum quasi?
-        Sequi autem illo fuga accusantium provident sunt voluptatibus pariatur numquam minima blanditiis reprehenderit, nemo ab tempora.
+      <Container>
+        <Logo />
+        {/* <section>LOGO</section> */}
+      </Container>
 
-        Bem-vindo ao Chronos Pomodoro
-      </p>
+      <Container>
+        <Menu />
+      </Container>
+
+      <Container>
+        <CountDown />
+      </Container>
     </>
-  )
+  );
 }
