@@ -1,4 +1,4 @@
-import { PlayCircleIcon } from "lucide-react";
+import { PlayCircleIcon, StopCircleIcon } from "lucide-react";
 import { Cycles } from "../Cycles";
 import { DefaultButton } from "../DefaultButton";
 import { DefaultInput } from "../DefaultInput";
@@ -57,6 +57,26 @@ export function MainForm() {
     });
   }
 
+  function handleInterruptTask(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) {
+    e.preventDefault();
+
+    setState((prevState) => {
+      return {
+        ...prevState,
+        activeTask: null,
+        secondsRemaining: 0,
+        formattedSecondsRemaining: "00:00",
+        tasks: prevState.tasks.map((task) => {
+          if (prevState.activeTask.id && prevState.activeTask.id === task.id) {
+            return { ...task, interruptedDate: Date.now() };
+          }
+          return task;
+        }),
+      };
+    });
+  }
   return (
     <form onSubmit={handleCreateNewTask} className="form" action="">
       <div className="formRow">
@@ -66,7 +86,7 @@ export function MainForm() {
           type="text"
           placeholder="Digite aqui"
           ref={taskNameInput} // util quando não é necessário validar os dados no momento da digitação, ou seja, quando a validação é feita somente no momento do envio do formulário, ou seja, no onSubmit.
-
+          disabled={!!state.activeTask}
           // util para controlar o vvalor do input em tempo real e para validar os dados enquanto o usuário digita, ou seja, no momento da digitação, ou seja, no onChange.
           //value={taskName}
           //onChange={(e) => {
@@ -79,13 +99,38 @@ export function MainForm() {
         <p>Proximo intervalo é de 25 minutos</p>
       </div>
 
+      {state.currentCycle > 0 && (
+        <div className="formRow">
+          <Cycles />
+        </div>
+      )}
       <div className="formRow">
-        <Cycles />
-      </div>
+        {!state.activeTask && (
+          <DefaultButton
+            icon={<PlayCircleIcon />}
+            type="submit"
+            title="Iniciar nova tarefa"
+            aria-label="Iniciar nova tarefa"
+            key="botao_submit"
+          />
+        )}
 
-      <div className="formRow">
-        <DefaultButton icon={<PlayCircleIcon />} onClick={() => {}} />
+        {!!state.activeTask && (
+          <DefaultButton
+            icon={<StopCircleIcon />}
+            type="button"
+            title="Interromper tarefa em andamento"
+            aria-label="Interromper tarefa em andamento"
+            color="red"
+            onClick={handleInterruptTask}
+            key="botao_interromper"
+          />
+        )}
       </div>
     </form>
   );
 }
+
+/*
+O React pode confundir os elementos quando eles são renderizados em uma lista, e isso pode causar problemas de desempenho e bugs. Para evitar isso, o React recomenda que cada elemento em uma lista tenha uma chave única (key) que o identifique de forma única. A chave deve ser estável, ou seja, não deve mudar entre as renderizações, e deve ser única entre os irmãos. Se a chave não for fornecida ou não for única, o React pode usar o índice do elemento na lista como chave, mas isso pode levar a problemas de desempenho e bugs se a ordem dos elementos mudar ou se elementos forem adicionados ou removidos da lista. Portanto, é importante fornecer chaves únicas para os elementos em uma lista para garantir que o React possa identificar corretamente cada elemento e otimizar a renderização.
+*/
